@@ -1,4 +1,4 @@
-package ru.mavrinvladislav.sufttech25.ui.theme
+package ru.mavrinvladislav.sufttech25.common.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

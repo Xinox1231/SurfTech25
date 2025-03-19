@@ -1,4 +1,4 @@
-package ru.mavrinvladislav.sufttech25.ui.theme
+package ru.mavrinvladislav.sufttech25.common.ui.theme
 
 import android.app.Activity
 import android.os.Build
