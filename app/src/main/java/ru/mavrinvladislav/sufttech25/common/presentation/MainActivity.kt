@@ -6,8 +6,11 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.lifecycle.lifecycleScope
+import com.arkivanov.decompose.defaultComponentContext
 import kotlinx.coroutines.launch
 import ru.mavrinvladislav.sufttech25.common.ui.theme.SuftTech25Theme
+import ru.mavrinvladislav.sufttech25.root.presentation.DefaultRootComponent
+import ru.mavrinvladislav.sufttech25.root.presentation.RootContent
 import ru.mavrinvladislav.sufttech25.search.domain.repository.SearchRepository
 import javax.inject.Inject
 
@@ -18,27 +21,15 @@ class MainActivity : ComponentActivity() {
     }
 
     @Inject
-    lateinit var repository: SearchRepository
+    lateinit var rootComponentFactory: DefaultRootComponent.Factory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         component.inject(this)
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        lifecycleScope.launch {
-            val result = repository.fetchBooks("Harry")
-            result.fold(
-                onSuccess = {
-                    Log.d("MainActivity", "Success: $it")
-                },
-                onFailure = {
-                    Log.d("MainActivity", "Fail: $it")
-                }
-            )
-        }
-
+        val componentContext = defaultComponentContext()
+        val component = rootComponentFactory.create(componentContext)
         setContent {
-            SuftTech25Theme {
-            }
+            RootContent(component)
         }
     }
 }
