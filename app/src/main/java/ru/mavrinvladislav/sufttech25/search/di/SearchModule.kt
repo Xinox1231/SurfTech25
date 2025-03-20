@@ -5,7 +5,7 @@ import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
 import ru.mavrinvladislav.sufttech25.search.data.remote.SearchService
-import ru.mavrinvladislav.sufttech25.search.data.repository.SearchRepositoryImpl
+import ru.mavrinvladislav.sufttech25.search.data.SearchRepositoryImpl
 import ru.mavrinvladislav.sufttech25.search.domain.repository.SearchRepository
 
 @Module

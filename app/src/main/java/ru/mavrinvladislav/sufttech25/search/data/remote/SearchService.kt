@@ -11,7 +11,11 @@ interface SearchService {
     suspend fun fetchSearch(
         @Query("q")
         query: String,
-        @Query("path")
-        page: Int
+        @Query("maxResults")
+        pageSize: Int = PAGE_SIZE
     ): Response<FetchResponse>
+
+    companion object {
+        private const val PAGE_SIZE = 40
+    }
 }
