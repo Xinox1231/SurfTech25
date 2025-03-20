@@ -13,6 +13,9 @@ interface FavouriteBooksDao {
     @Query("SELECT id from favourite_books")
     fun getFavouriteBooksId(): Flow<List<String>>
 
+    @Query("SELECT * from favourite_books")
+    fun getFavouriteBooks(): Flow<List<BookDb>>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addBookToFavourite(book: BookDb)
 

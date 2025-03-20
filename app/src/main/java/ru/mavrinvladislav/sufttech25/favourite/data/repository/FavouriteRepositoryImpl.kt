@@ -5,6 +5,7 @@ import kotlinx.coroutines.flow.map
 import ru.mavrinvladislav.sufttech25.common.data.local.FavouriteBooksDao
 import ru.mavrinvladislav.sufttech25.favourite.domain.repository.FavouriteRepository
 import ru.mavrinvladislav.sufttech25.common.data.mapper.toDb
+import ru.mavrinvladislav.sufttech25.common.data.mapper.toEntity
 import ru.mavrinvladislav.sufttech25.common.domain.model.Book
 import javax.inject.Inject
 
@@ -15,6 +16,14 @@ class FavouriteRepositoryImpl @Inject constructor(
         favouriteBooksDao.getFavouriteBooksId().map {
             it.toSet()
         }
+
+    override fun getFavouriteBooks(): Flow<List<Book>> =
+        favouriteBooksDao.getFavouriteBooks().map { list ->
+            list.map {
+                it.toEntity()
+            }
+        }
+
 
     override suspend fun addBookToFavourite(book: Book) {
         favouriteBooksDao.addBookToFavourite(book.toDb())
