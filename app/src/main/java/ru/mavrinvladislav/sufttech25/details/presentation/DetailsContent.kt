@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -33,11 +34,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import ru.mavrinvladislav.sufttech25.R
 import ru.mavrinvladislav.sufttech25.common.domain.model.Book
+import ru.mavrinvladislav.sufttech25.common.ui.theme.brandRed
 import ru.mavrinvladislav.sufttech25.common.ui.theme.lightGray
 
 @Composable
@@ -76,7 +80,7 @@ fun DetailsContent(component: DetailsComponent) {
 fun BookDetailScreen(book: Book) {
     Column(
         modifier = Modifier
-            .fillMaxWidth(),
+            .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         AsyncImage(
@@ -163,16 +167,25 @@ private fun TopBar(
             )
         },
         actions = {
-            IconButton(
-                onClick = onChangeStateClick
+            Box(
+                modifier = Modifier
+                    .padding(6.dp)
+                    .clip(CircleShape)
+                    .background(Color.White)
+                    .size(30.dp),
+                contentAlignment = Alignment.Center
             ) {
-                val icon =
-                    if (book.isFavourite) Icons.Default.Favorite else Icons.Default.FavoriteBorder
-                Icon(
-                    imageVector = icon,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.background
-                )
+                IconButton(
+                    onClick = { onChangeStateClick() }
+                ) {
+                    val color = if (book.isFavourite) brandRed else lightGray
+                    Icon(
+                        imageVector = Icons.Default.Favorite,
+                        contentDescription = stringResource(R.string.favourite),
+                        tint = color,
+                        modifier = Modifier.size(20.dp)
+                    )
+                }
             }
         }
     )
