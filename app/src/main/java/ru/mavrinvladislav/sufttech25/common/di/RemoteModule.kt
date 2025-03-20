@@ -14,6 +14,7 @@ interface RemoteModule {
     companion object {
 
         @Provides
+        @ApplicationScope
         fun provideRetrofit(
             okHttpClient: OkHttpClient
         ) = Retrofit.Builder()
@@ -23,6 +24,7 @@ interface RemoteModule {
             .build()
 
         @Provides
+        @ApplicationScope
         fun provideOkHttpClient(
             loggingInterceptor: HttpLoggingInterceptor
         ) = OkHttpClient.Builder()
@@ -30,6 +32,7 @@ interface RemoteModule {
             .build()
 
         @Provides
+        @ApplicationScope
         fun provideLoggingInterceptor() = HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY
         }
