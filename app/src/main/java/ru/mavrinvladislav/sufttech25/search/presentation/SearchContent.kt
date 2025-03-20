@@ -41,6 +41,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.mavrinvladislav.sufttech25.R
@@ -140,33 +141,35 @@ private fun LoadingState() {
 private fun ErrorState(
     onRetryButtonClick: () -> Unit
 ) {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(
-            text = stringResource(R.string.error_message),
-            style = MaterialTheme.typography.bodyMedium,
-        )
-        Spacer(modifier = Modifier.height(16.dp)) // Отступ между текстом и кнопкой
-        Button(
-            onClick = onRetryButtonClick,
-            modifier = Modifier
-                .padding(8.dp),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = brandBlue,
-                contentColor = Color.White
-            ),
-            shape = RoundedCornerShape(8.dp)
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            Spacer(Modifier.weight(1f))
             Text(
-                text = stringResource(R.string.retry_button_text),
+                text = stringResource(R.string.error_message),
                 style = MaterialTheme.typography.bodyMedium,
-                color = Color.White
             )
+            Spacer(modifier = Modifier.height(16.dp)) // Отступ между текстом и кнопкой
+            Button(
+                onClick = onRetryButtonClick,
+                modifier = Modifier
+                    .padding(8.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = brandBlue,
+                    contentColor = Color.White
+                ),
+                shape = RoundedCornerShape(8.dp)
+            ) {
+                Text(
+                    text = stringResource(R.string.retry_button_text),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = Color.White,
+                    textAlign = TextAlign.Center
+                )
+            }
+            Spacer(Modifier.weight(1f))
         }
-    }
 }
 
 @Composable

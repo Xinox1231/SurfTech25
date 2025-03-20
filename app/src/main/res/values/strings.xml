@@ -3,7 +3,7 @@
     <string name="search">Поиск</string>
     <string name="favourite">Избранное</string>
     <string name="empty_state">Введите название книги, которую ищите</string>
-    <string name="error_message">Ошибка во время выполнения запроса, попробуйте повторить</string>
+    <string name="error_message">Ошибка во время выполнения запроса,\n попробуйте повторить</string>
     <string name="retry_button_text">Попробовать ещё раз</string>
     <string name="not_found_state">По вашему запросу ничего не найдено</string>
     <string name="clear">Clear</string>
