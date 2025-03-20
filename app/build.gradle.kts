@@ -73,6 +73,10 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
 
+    //Room
+    implementation(libs.room.core)
+    ksp(libs.room.compiler)
+
     //Decompose
     implementation(libs.decompose.core)
     implementation(libs.decompose.jetpack)
