@@ -47,7 +47,7 @@ fun FavouriteContent(component: FavouriteComponent) {
                         component.onChangeBookFavouriteStateClick(it)
                     },
                     onCardClick = {
-
+                        component.onBookClick(it)
                     }
                 )
             }

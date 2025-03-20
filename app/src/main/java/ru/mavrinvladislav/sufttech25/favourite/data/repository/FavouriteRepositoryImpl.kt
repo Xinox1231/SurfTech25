@@ -24,6 +24,9 @@ class FavouriteRepositoryImpl @Inject constructor(
             }
         }
 
+    override fun observeIsBookFavourite(bookId: String): Flow<Boolean> =
+        favouriteBooksDao.observeIsFavourite(bookId)
+
 
     override suspend fun addBookToFavourite(book: Book) {
         favouriteBooksDao.addBookToFavourite(book.toDb())

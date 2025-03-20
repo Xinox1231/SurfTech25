@@ -4,15 +4,16 @@ import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
+import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.value.Value
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.serialization.Serializable
+import ru.mavrinvladislav.sufttech25.common.domain.model.Book
 import ru.mavrinvladislav.sufttech25.details.presentation.DefaultDetailsComponent
 import ru.mavrinvladislav.sufttech25.main.presentation.DefaultMainComponent
-import kotlin.math.truncate
 
 class DefaultRootComponent @AssistedInject constructor(
     private val mainComponentFactory: DefaultMainComponent.Factory,
@@ -36,15 +37,19 @@ class DefaultRootComponent @AssistedInject constructor(
             is RootConfig.Main -> {
                 val component = mainComponentFactory.create(
                     onBookClicked = {
-                        navigation.push(RootConfig.Book)
+                        navigation.push(RootConfig.Details(it))
                     },
                     componentContext = componentContext
                 )
                 RootChild.Main(component)
             }
 
-            RootConfig.Book -> {
+            is RootConfig.Details -> {
                 val component = detailsComponentFactory.create(
+                    book = config.book,
+                    onBackButtonClicked = {
+                        navigation.pop()
+                    },
                     componentContext = componentContext
                 )
                 RootChild.Details(component)
@@ -59,7 +64,7 @@ class DefaultRootComponent @AssistedInject constructor(
         data object Main : RootConfig
 
         @Serializable
-        data object Book : RootConfig
+        data class Details(val book: Book) : RootConfig
     }
 
     @AssistedFactory

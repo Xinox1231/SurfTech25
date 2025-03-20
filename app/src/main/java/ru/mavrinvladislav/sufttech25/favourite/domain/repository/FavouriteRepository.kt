@@ -9,6 +9,8 @@ interface FavouriteRepository {
 
     fun getFavouriteBooks(): Flow<List<Book>>
 
+    fun observeIsBookFavourite(bookId: String): Flow<Boolean>
+
     suspend fun addBookToFavourite(book: Book)
 
     suspend fun deleteBookFromFavourite(bookId: String)
