@@ -8,8 +8,8 @@ import com.arkivanov.mvikotlin.extensions.coroutines.CoroutineExecutor
 import kotlinx.coroutines.launch
 import ru.mavrinvladislav.sufttech25.common.domain.model.Book
 import ru.mavrinvladislav.sufttech25.common.domain.use_case.ChangeFavouriteStatusUseCase
-import ru.mavrinvladislav.sufttech25.search.domain.use_case.FetchBooksUseCase
 import ru.mavrinvladislav.sufttech25.common.domain.use_case.GetFavouriteBooksIdUseCase
+import ru.mavrinvladislav.sufttech25.search.domain.use_case.FetchBooksUseCase
 import ru.mavrinvladislav.sufttech25.search.presentation.SearchStore.Intent
 import ru.mavrinvladislav.sufttech25.search.presentation.SearchStore.Label
 import ru.mavrinvladislav.sufttech25.search.presentation.SearchStore.State
@@ -27,6 +27,8 @@ interface SearchStore : Store<Intent, State, Label> {
         data class ClickOnBook(val book: Book) : Intent
 
         data class ChangeBookFavouriteStatus(val book: Book) : Intent
+
+        data object ClearQuery : Intent
 
     }
 
@@ -95,6 +97,8 @@ class SearchStoreFactory @Inject constructor(
 
         data class FavouriteBooksUpdated(val favouriteIds: Set<String>) : Msg
 
+        data object QueryCleared : Msg
+
     }
 
     private inner class BootstrapperImpl : CoroutineBootstrapper<Action>() {
@@ -147,6 +151,10 @@ class SearchStoreFactory @Inject constructor(
                             changeFavouriteStatusUseCase.add(book) // Добавляем книгу в избранное
                         }
                     }
+                }
+
+                Intent.ClearQuery -> {
+                    dispatch(Msg.QueryCleared)
                 }
             }
         }
@@ -210,6 +218,11 @@ class SearchStoreFactory @Inject constructor(
                     )
                 }
 
+                Msg.QueryCleared -> {
+                    copy(
+                        query = ""
+                    )
+                }
             }
     }
 }

@@ -1,5 +1,12 @@
 package ru.mavrinvladislav.sufttech25.main.presentation
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.SizeTransform
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.BottomAppBar
@@ -13,9 +20,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import com.arkivanov.decompose.extensions.compose.jetpack.subscribeAsState
 import ru.mavrinvladislav.sufttech25.common.ui.theme.brandBlue
+import ru.mavrinvladislav.sufttech25.common.ui.theme.lightGray
 import ru.mavrinvladislav.sufttech25.favourite.presentation.FavouriteContent
 import ru.mavrinvladislav.sufttech25.search.presentation.SearchContent
 
@@ -27,7 +36,7 @@ fun MainContent(component: MainComponent) {
     Scaffold(
         bottomBar = {
             BottomAppBar(
-                containerColor = MaterialTheme.colorScheme.onPrimary,
+                containerColor = Color.White
             ) {
                 val tabs = listOf(MainTab.Search, MainTab.Favourite)
                 tabs.forEach { tab ->
@@ -35,8 +44,8 @@ fun MainContent(component: MainComponent) {
                         colors = NavigationBarItemDefaults.colors(
                             selectedIconColor = brandBlue,
                             selectedTextColor = brandBlue,
-                            unselectedIconColor = MaterialTheme.colorScheme.secondary,
-                            unselectedTextColor = MaterialTheme.colorScheme.secondary,
+                            unselectedIconColor = lightGray,
+                            unselectedTextColor = lightGray,
                         ),
                         label = {
                             Text(text = stringResource(tab.titleId))
@@ -57,13 +66,26 @@ fun MainContent(component: MainComponent) {
                 .fillMaxSize()
                 .padding(padding)
         ) {
-            when (val instance = stack.active.instance) {
-                is MainChild.Favourite -> {
-                    FavouriteContent(instance.component)
-                }
+            val activeInstance = stack.active.instance
 
-                is MainChild.Search -> {
-                    SearchContent(instance.component)
+            AnimatedContent(
+                targetState = activeInstance,
+                transitionSpec = {
+                    // Анимация слайдов (горизонтальный переход)
+                    slideInHorizontally(initialOffsetX = { it }) togetherWith
+                            slideOutHorizontally(targetOffsetX = { -it }) using
+                            SizeTransform { _, _ -> tween(durationMillis = 300) }
+                },
+                label = "MainTabTransition"
+            ) { instance ->
+                when (instance) {
+                    is MainChild.Favourite -> {
+                        FavouriteContent(instance.component)
+                    }
+
+                    is MainChild.Search -> {
+                        SearchContent(instance.component)
+                    }
                 }
             }
         }

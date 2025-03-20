@@ -26,10 +26,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
+import ru.mavrinvladislav.sufttech25.R
 import ru.mavrinvladislav.sufttech25.common.domain.model.Book
 import ru.mavrinvladislav.sufttech25.common.ui.theme.lightGray
 
@@ -42,20 +44,19 @@ fun BookCard(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .height(320.dp) // Увеличенная общая высота
+            .height(320.dp)
             .clickable { onCardClick(book) },
         colors = CardDefaults.cardColors(
-            containerColor = Color.White // Белый фон карточки
+            containerColor = Color.White
         )
     ) {
         Column {
-            // Контейнер изображения
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(224.dp)
                     .clip(RoundedCornerShape(16.dp))
-                    .background(Color.LightGray), // Фон-заглушка
+                    .background(Color.LightGray),
                 contentAlignment = Alignment.TopEnd
             ) {
                 val painter = rememberAsyncImagePainter(model = book.img)
@@ -76,7 +77,7 @@ fun BookCard(
                 ) {
                     Icon(
                         imageVector = if (book.isFavourite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
-                        contentDescription = "Favorite",
+                        contentDescription = stringResource(R.string.favourite),
                         tint = Color.White
                     )
                 }

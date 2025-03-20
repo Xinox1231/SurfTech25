@@ -1,10 +1,9 @@
 package ru.mavrinvladislav.sufttech25.details.presentation
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -12,6 +11,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -22,12 +22,12 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import ru.mavrinvladislav.sufttech25.common.domain.model.Book
 
@@ -52,71 +52,83 @@ fun DetailsContent(component: DetailsComponent) {
         Box(
             modifier = Modifier.padding(padding)
         ) {
-            BookDetailsScreen(model.book)
+            BookDetailScreen(book = model.book)
         }
     }
 }
 
 @Composable
-fun BookDetailsScreen(book: Book) {
-    Box(
+fun BookDetailScreen(book: Book) {
+    Column(
         modifier = Modifier
             .fillMaxSize()
     ) {
-
         Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             AsyncImage(
                 model = book.img,
-                contentDescription = null,
-                modifier = Modifier
-                    .size(200.dp)
-                    .clip(RoundedCornerShape(8.dp)),
-                contentScale = ContentScale.Crop
+                contentDescription = null
             )
-
-            // Информация о книге
+            Spacer(modifier = Modifier.size(14.dp))
+            Text(
+                text = book.authors.joinToString(", "),
+                fontSize = 16.sp,
+                color = Color.Gray,
+            )
+            Spacer(modifier = Modifier.size(8.dp))
+            Text(
+                text = book.title,
+                fontSize = 20.sp,
+                fontWeight = FontWeight.SemiBold
+            )
+            Spacer(modifier = Modifier.size(8.dp))
+            Text(
+                text = "1997 г.",
+                fontSize = 14.sp,
+                color = Color.Gray,
+                modifier = Modifier.padding(top = 8.dp)
+            )
+        }
+        Spacer(Modifier.size(22.dp))
+        Card(
+            modifier = Modifier.fillMaxSize(),
+            shape = RoundedCornerShape(24.dp)
+        ) {
             Column(
-                modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                Modifier.padding(20.dp)
             ) {
-                Text(
-                    text = book.authors.joinToString(", "),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = Color.Gray
-                )
-                Text(
-                    text = book.title,
-                    style = MaterialTheme.typography.titleMedium,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
-                )
                 Text(
                     text = book.publishedDate,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = Color.Gray
+                    fontSize = 14.sp,
+                    color = Color.Gray,
+                    modifier = Modifier.padding(top = 8.dp)
                 )
-            }
-
-            // Описание книги
-            Column(
-                modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
+                Spacer(Modifier.size(16.dp))
                 Text(
                     text = book.description,
-                    color = Color.Gray
-                )
-                Text(
-                    text = book.description,
-                    style = MaterialTheme.typography.bodyMedium
+                    fontSize = 14.sp,
+                    color = Color.Gray,
+                    modifier = Modifier.padding(top = 8.dp)
                 )
             }
         }
+//        Spacer(modifier = Modifier.padding(top = 32.dp))
+//
+//        // Секция описания
+//        Text(
+//            text = "Описание",
+//            fontSize = 18.sp,
+//            fontWeight = FontWeight.Medium,
+//            modifier = Modifier.padding(bottom = 12.dp)
+//        )
+//
+//        Text(
+//            text = "Harry Potter has never even heard of Hogwarts when...",
+//            fontSize = 14.sp,
+//            color = Color.Gray,
+//            lineHeight = 20.sp
+//        )
     }
 }
 

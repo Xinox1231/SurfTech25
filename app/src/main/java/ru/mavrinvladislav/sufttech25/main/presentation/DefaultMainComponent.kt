@@ -29,7 +29,6 @@ class DefaultMainComponent @AssistedInject constructor(
     override val stackNavigation: Value<ChildStack<*, MainChild>> = childStack(
         source = navigation,
         serializer = MainConfig.serializer(),
-        handleBackButton = true,
         initialConfiguration = MainConfig.Search,
         childFactory = ::child
     )

@@ -57,6 +57,10 @@ class DefaultSearchComponent @AssistedInject constructor(
         store.accept(SearchStore.Intent.ChangeBookFavouriteStatus(book))
     }
 
+    override fun clearQuery() {
+        store.accept(SearchStore.Intent.ClearQuery)
+    }
+
 
     @AssistedFactory
     interface Factory {

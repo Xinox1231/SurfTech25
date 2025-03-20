@@ -14,4 +14,6 @@ interface SearchComponent {
     fun clickOnBook(book: Book)
 
     fun changeFavouriteStatus(book: Book)
+
+    fun clearQuery()
 }
