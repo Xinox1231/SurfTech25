@@ -6,7 +6,7 @@ import ru.mavrinvladislav.sufttech25.common.di.DaggerApplicationComponent
 class BookApp : Application() {
 
     val component by lazy {
-        DaggerApplicationComponent.create()
+        DaggerApplicationComponent.factory().create(this)
     }
 
 }
