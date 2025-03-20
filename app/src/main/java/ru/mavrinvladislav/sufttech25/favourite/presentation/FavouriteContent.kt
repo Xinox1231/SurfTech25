@@ -1,5 +1,6 @@
 package ru.mavrinvladislav.sufttech25.favourite.presentation
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -36,7 +37,9 @@ fun FavouriteContent(component: FavouriteComponent) {
         }
     ) { padding ->
         Box(
-            modifier = Modifier.padding(padding)
+            modifier = Modifier
+                .padding(padding)
+                .background(Color.White)
         ) {
             Column(
                 modifier = Modifier.padding(horizontal = 20.dp, vertical = 8.dp)
@@ -61,10 +64,8 @@ private fun TopBar(
     onBackClicked: () -> Unit
 ) {
     CenterAlignedTopAppBar(
-        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-            containerColor = Color.Transparent,
-            titleContentColor = MaterialTheme.colorScheme.background
-
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = Color.White
         ),
         title = {
             Text(
@@ -78,7 +79,6 @@ private fun TopBar(
                 Icon(
                     imageVector = Icons.Default.ArrowBack,
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.background
                 )
             }
         },

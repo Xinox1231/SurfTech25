@@ -45,9 +45,10 @@ fun BookCard(
         modifier = Modifier
             .fillMaxWidth()
             .height(320.dp)
+            .clip(RoundedCornerShape(16.dp))
             .clickable { onCardClick(book) },
         colors = CardDefaults.cardColors(
-            containerColor = Color.White
+            containerColor = Color.Transparent
         )
     ) {
         Column {
@@ -87,7 +88,7 @@ fun BookCard(
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1f)
-                    .padding(top = 12.dp)
+                    .padding(8.dp)
             ) {
                 Text(
                     text = book.authors.joinToString(", "),
