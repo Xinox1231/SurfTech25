@@ -9,7 +9,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
@@ -43,6 +45,8 @@ fun DetailsContent(component: DetailsComponent) {
 
     val model by component.model.collectAsState()
 
+    val scrollState = rememberScrollState()
+
     Scaffold(
         topBar = {
             TopBar(
@@ -56,10 +60,11 @@ fun DetailsContent(component: DetailsComponent) {
             )
         }
     ) { padding ->
-        Box(
+        Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
+                .verticalScroll(scrollState)
                 .background(Color.White),
         ) {
             BookDetailScreen(book = model.book)
@@ -87,7 +92,7 @@ fun BookDetailScreen(book: Book) {
         Text(
             text = book.authors.joinToString(", "),
             fontSize = 16.sp,
-            color = Color.Gray,
+            color = lightGray,
         )
         Spacer(modifier = Modifier.size(8.dp))
         Text(
@@ -102,28 +107,34 @@ fun BookDetailScreen(book: Book) {
             color = Color.Gray,
         )
         Spacer(Modifier.size(22.dp))
-        Card(
-            modifier = Modifier.fillMaxSize(),
-            colors = CardDefaults.cardColors(
-                containerColor = lightGray
-            ),
-            shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(lightGray)
         ) {
-            Column(
-                Modifier.padding(20.dp)
+            Card(
+                modifier = Modifier.fillMaxSize(),
+                colors = CardDefaults.cardColors(
+                    containerColor = lightGray
+                ),
+                shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)
             ) {
-                Text(
-                    text = book.publishedDate,
-                    fontSize = 14.sp,
-                    color = Color.Black,
-                    fontWeight = FontWeight.Bold,
-                )
-                Spacer(Modifier.size(16.dp))
-                Text(
-                    text = book.description,
-                    fontSize = 14.sp,
-                    color = Color.Black,
-                )
+                Column(
+                    Modifier.padding(20.dp)
+                ) {
+                    Text(
+                        text = book.publishedDate,
+                        fontSize = 14.sp,
+                        color = Color.Black,
+                        fontWeight = FontWeight.Bold,
+                    )
+                    Spacer(Modifier.size(16.dp))
+                    Text(
+                        text = book.description,
+                        fontSize = 14.sp,
+                        color = Color.Black,
+                    )
+                }
             }
         }
     }

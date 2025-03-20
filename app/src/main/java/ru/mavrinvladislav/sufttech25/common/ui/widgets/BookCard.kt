@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
@@ -33,6 +35,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import ru.mavrinvladislav.sufttech25.R
 import ru.mavrinvladislav.sufttech25.common.domain.model.Book
+import ru.mavrinvladislav.sufttech25.common.ui.theme.brandRed
 import ru.mavrinvladislav.sufttech25.common.ui.theme.lightGray
 
 @Composable
@@ -70,18 +73,28 @@ fun BookCard(
                     contentScale = ContentScale.FillBounds
                 )
 
-                IconButton(
-                    onClick = { onFavoriteClick(book) },
+                Box(
                     modifier = Modifier
-                        .padding(8.dp)
+                        .padding(6.dp)
+                        .clip(CircleShape)
                         .align(Alignment.TopEnd)
+                        .background(Color.White)
+                        .size(30.dp),
+                    contentAlignment = Alignment.Center
                 ) {
-                    Icon(
-                        imageVector = if (book.isFavourite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
-                        contentDescription = stringResource(R.string.favourite),
-                        tint = Color.White
-                    )
+                    IconButton(
+                        onClick = { onFavoriteClick(book) }
+                    ) {
+                        val color = if (book.isFavourite) brandRed else lightGray
+                        Icon(
+                            imageVector = Icons.Default.Favorite,
+                            contentDescription = stringResource(R.string.favourite),
+                            tint = color,
+                            modifier = Modifier.size(20.dp)
+                        )
+                    }
                 }
+
             }
 
             Column(

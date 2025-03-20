@@ -15,12 +15,11 @@ import ru.mavrinvladislav.sufttech25.common.domain.model.Book
 fun BooksGrid(
     books: List<Book>,
     onFavoriteClick: (Book) -> Unit,
-    onCardClick: (Book) -> Unit
+    onCardClick: (Book) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     LazyVerticalGrid(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(vertical = 20.dp),
+        modifier = modifier,
         columns = GridCells.Fixed(2), // 2 колонки
         verticalArrangement = Arrangement.spacedBy(32.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp)

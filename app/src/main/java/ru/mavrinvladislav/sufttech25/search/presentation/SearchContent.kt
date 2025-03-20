@@ -79,7 +79,10 @@ fun SearchContent(component: SearchComponent) {
                     },
                     onCardClick = {
                         component.clickOnBook(it)
-                    }
+                    },
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(top = 20.dp)
                 )
             }
 

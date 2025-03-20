@@ -3,6 +3,7 @@ package ru.mavrinvladislav.sufttech25.favourite.presentation
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -43,7 +44,7 @@ fun FavouriteContent(component: FavouriteComponent) {
                 .background(Color.White)
         ) {
             Column(
-                modifier = Modifier.padding(horizontal = 20.dp, vertical = 8.dp)
+                modifier = Modifier.padding(start = 20.dp, end = 20.dp, bottom = 8.dp)
             ) {
                 BooksGrid(
                     books = model.favouriteBooks,
@@ -52,7 +53,9 @@ fun FavouriteContent(component: FavouriteComponent) {
                     },
                     onCardClick = {
                         component.onBookClick(it)
-                    }
+                    },
+                    modifier = Modifier
+                        .fillMaxSize()
                 )
             }
         }
