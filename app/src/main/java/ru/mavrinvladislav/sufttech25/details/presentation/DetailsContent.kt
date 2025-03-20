@@ -1,17 +1,21 @@
 package ru.mavrinvladislav.sufttech25.details.presentation
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -24,12 +28,15 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import ru.mavrinvladislav.sufttech25.common.domain.model.Book
+import ru.mavrinvladislav.sufttech25.common.ui.theme.lightGray
 
 @Composable
 fun DetailsContent(component: DetailsComponent) {
@@ -50,7 +57,10 @@ fun DetailsContent(component: DetailsComponent) {
         }
     ) { padding ->
         Box(
-            modifier = Modifier.padding(padding)
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding)
+                .background(Color.White),
         ) {
             BookDetailScreen(book = model.book)
         }
@@ -61,39 +71,43 @@ fun DetailsContent(component: DetailsComponent) {
 fun BookDetailScreen(book: Book) {
     Column(
         modifier = Modifier
-            .fillMaxSize()
+            .fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            AsyncImage(
-                model = book.img,
-                contentDescription = null
-            )
-            Spacer(modifier = Modifier.size(14.dp))
-            Text(
-                text = book.authors.joinToString(", "),
-                fontSize = 16.sp,
-                color = Color.Gray,
-            )
-            Spacer(modifier = Modifier.size(8.dp))
-            Text(
-                text = book.title,
-                fontSize = 20.sp,
-                fontWeight = FontWeight.SemiBold
-            )
-            Spacer(modifier = Modifier.size(8.dp))
-            Text(
-                text = "1997 г.",
-                fontSize = 14.sp,
-                color = Color.Gray,
-                modifier = Modifier.padding(top = 8.dp)
-            )
-        }
+        AsyncImage(
+            model = book.img,
+            contentDescription = null,
+            modifier = Modifier
+                .fillMaxWidth(fraction = 0.6f)
+                .sizeIn(minHeight = 256.dp, maxHeight = 320.dp)
+                .clip(RoundedCornerShape(16.dp)),
+            contentScale = ContentScale.FillBounds
+        )
+        Spacer(modifier = Modifier.size(14.dp))
+        Text(
+            text = book.authors.joinToString(", "),
+            fontSize = 16.sp,
+            color = Color.Gray,
+        )
+        Spacer(modifier = Modifier.size(8.dp))
+        Text(
+            text = book.title,
+            fontSize = 20.sp,
+            fontWeight = FontWeight.SemiBold
+        )
+        Spacer(modifier = Modifier.size(8.dp))
+        Text(
+            text = book.publishedDate,
+            fontSize = 14.sp,
+            color = Color.Gray,
+        )
         Spacer(Modifier.size(22.dp))
         Card(
             modifier = Modifier.fillMaxSize(),
-            shape = RoundedCornerShape(24.dp)
+            colors = CardDefaults.cardColors(
+                containerColor = lightGray
+            ),
+            shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)
         ) {
             Column(
                 Modifier.padding(20.dp)
@@ -101,34 +115,17 @@ fun BookDetailScreen(book: Book) {
                 Text(
                     text = book.publishedDate,
                     fontSize = 14.sp,
-                    color = Color.Gray,
-                    modifier = Modifier.padding(top = 8.dp)
+                    color = Color.Black,
+                    fontWeight = FontWeight.Bold,
                 )
                 Spacer(Modifier.size(16.dp))
                 Text(
                     text = book.description,
                     fontSize = 14.sp,
-                    color = Color.Gray,
-                    modifier = Modifier.padding(top = 8.dp)
+                    color = Color.Black,
                 )
             }
         }
-//        Spacer(modifier = Modifier.padding(top = 32.dp))
-//
-//        // Секция описания
-//        Text(
-//            text = "Описание",
-//            fontSize = 18.sp,
-//            fontWeight = FontWeight.Medium,
-//            modifier = Modifier.padding(bottom = 12.dp)
-//        )
-//
-//        Text(
-//            text = "Harry Potter has never even heard of Hogwarts when...",
-//            fontSize = 14.sp,
-//            color = Color.Gray,
-//            lineHeight = 20.sp
-//        )
     }
 }
 

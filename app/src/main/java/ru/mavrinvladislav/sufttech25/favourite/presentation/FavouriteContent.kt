@@ -20,6 +20,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import ru.mavrinvladislav.sufttech25.R
 import ru.mavrinvladislav.sufttech25.common.ui.widgets.BooksGrid
@@ -69,7 +70,9 @@ private fun TopBar(
         ),
         title = {
             Text(
-                text = stringResource(R.string.favourite)
+                text = stringResource(R.string.favourite),
+                color = Color.Black,
+                fontWeight = FontWeight.Bold
             )
         },
         navigationIcon = {

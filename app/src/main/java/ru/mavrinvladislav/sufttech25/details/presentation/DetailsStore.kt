@@ -48,6 +48,7 @@ class DetailsStoreFactory @Inject constructor(
             ),
             bootstrapper = BootstrapperImpl(book.id),
             executorFactory = ::ExecutorImpl,
+            reducer = ReducerImpl
         ) {}
 
     private sealed interface Action {
@@ -57,11 +58,18 @@ class DetailsStoreFactory @Inject constructor(
     }
 
     private sealed interface Msg {
-
+        data class FavouriteStateChanged(
+            val isFavourite: Boolean
+        ) : Msg
     }
 
     private inner class BootstrapperImpl(val bookId: String) : CoroutineBootstrapper<Action>() {
         override fun invoke() {
+            scope.launch {
+                observeIsBookFavouriteUseCase(bookId).collect {
+                    dispatch(Action.FavouriteStateChanged(it))
+                }
+            }
         }
     }
 
@@ -87,10 +95,21 @@ class DetailsStoreFactory @Inject constructor(
         }
 
         override fun executeAction(action: Action, getState: () -> State) {
+            when (action) {
+                is Action.FavouriteStateChanged -> {
+                    dispatch(Msg.FavouriteStateChanged(action.isFavourite))
+                }
+            }
         }
     }
 
-    /*private object ReducerImpl : Reducer<State, Msg> {
-        override fun State.reduce(msg: Msg): State = State()
-    }*/
+    private object ReducerImpl : Reducer<State, Msg> {
+        override fun State.reduce(msg: Msg): State =
+            when (msg) {
+                is Msg.FavouriteStateChanged -> {
+                    copy(book = book.copy(isFavourite = msg.isFavourite))
+                }
+
+            }
+    }
 }
