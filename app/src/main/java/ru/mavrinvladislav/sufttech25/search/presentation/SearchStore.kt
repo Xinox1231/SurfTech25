@@ -1,5 +1,6 @@
 package ru.mavrinvladislav.sufttech25.search.presentation
 
+import android.util.Log
 import com.arkivanov.mvikotlin.core.store.Reducer
 import com.arkivanov.mvikotlin.core.store.Store
 import com.arkivanov.mvikotlin.core.store.StoreFactory
@@ -69,7 +70,7 @@ class SearchStoreFactory @Inject constructor(
             name = "SearchStore",
             initialState = State(
                 query = "",
-                searchState = State.SearchState.EmptyState,
+                searchState = SearchState.EmptyState,
                 favouriteIds = emptySet()
             ),
             bootstrapper = BootstrapperImpl(),
@@ -91,7 +92,7 @@ class SearchStoreFactory @Inject constructor(
 
         data object Loading : Msg
 
-        data class BooksFound(val booksList: List<Book>) : Msg
+        data class BooksFound(val booksList: List<Book>, val favouriteIds: Set<String>) : Msg
 
         data class Error(val message: String) : Msg
 
@@ -106,6 +107,7 @@ class SearchStoreFactory @Inject constructor(
             scope.launch {
                 getFavouriteBooksId().collect { favouriteIds ->
                     dispatch(Action.FavouriteBooksUpdated(favouriteIds))
+                    Log.d(LOG_TAG, favouriteIds.toString())
                 }
             }
         }
@@ -122,13 +124,14 @@ class SearchStoreFactory @Inject constructor(
                     scope.launch {
                         dispatch(Msg.Loading)
                         val query = getState().query
+                        val favouriteIds = getState().favouriteIds
                         val result = fetchBooksUseCase(query)
                         result.fold(
                             onSuccess = { books ->
                                 if (books.isEmpty()) {
                                     dispatch(Msg.NotFound)
                                 } else {
-                                    dispatch(Msg.BooksFound(books))
+                                    dispatch(Msg.BooksFound(books, favouriteIds))
                                 }
                             },
                             onFailure = { message ->
@@ -172,8 +175,11 @@ class SearchStoreFactory @Inject constructor(
         override fun State.reduce(msg: Msg): State =
             when (msg) {
                 is Msg.BooksFound -> {
+                    val newBooksList = msg.booksList.map { book ->
+                        book.copy(isFavourite = msg.favouriteIds.contains(book.id))
+                    }
                     copy(
-                        searchState = SearchState.BooksFound(msg.booksList)
+                        searchState = SearchState.BooksFound(newBooksList)
                     )
                 }
 
@@ -224,5 +230,9 @@ class SearchStoreFactory @Inject constructor(
                     )
                 }
             }
+    }
+
+    companion object {
+        private const val LOG_TAG = "SearchStore"
     }
 }

@@ -42,10 +42,11 @@ import ru.mavrinvladislav.sufttech25.common.ui.theme.lightGray
 fun BookCard(
     book: Book,
     onFavoriteClick: (Book) -> Unit,
-    onCardClick: (Book) -> Unit
+    onCardClick: (Book) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Card(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .height(320.dp)
             .clip(RoundedCornerShape(16.dp))
